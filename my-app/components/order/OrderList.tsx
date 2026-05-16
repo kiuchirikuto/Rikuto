@@ -7,6 +7,11 @@ import { Button } from "@/components/ui/button"
 export default function OrderList() {
   const { cart, orders, removeFromCart, updateQty, placeOrder, clearCart } = useOrder()
   const [showHistory, setShowHistory] = useState(false)
+  const [people, setPeople] = useState<number>(1)
+
+  const total = cart.reduce((s, c) => s + (c.item.price || 0) * c.qty, 0)
+  const totalText = total.toLocaleString()
+  const perPerson = people > 0 ? Math.ceil(total / people) : total
 
   return (
     <div className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-32px)] max-w-[375px] -translate-x-1/2">
@@ -46,10 +51,27 @@ export default function OrderList() {
               ))
             )}
 
-            <div className="mt-2 flex gap-2">
-              <Button className="flex-1" onClick={() => placeOrder()}>
-                注文確定
-              </Button>
+            <div className="mt-2">
+              <div className="mb-2 flex items-center justify-between">
+                <div className="text-sm">合計</div>
+                <div className="text-sm font-semibold">¥{totalText}</div>
+              </div>
+              <div className="mb-2 flex items-center gap-2">
+                <label className="text-xs">人数</label>
+                <input
+                  type="number"
+                  min={1}
+                  value={people}
+                  onChange={(e) => setPeople(Math.max(1, Number(e.target.value) || 1))}
+                  className="w-16 rounded border px-2 py-1 text-sm"
+                />
+                <div className="text-xs">一人あたり: <span className="font-semibold">¥{perPerson.toLocaleString()}</span></div>
+              </div>
+              <div className="flex gap-2">
+                <Button className="flex-1" onClick={() => placeOrder()}>
+                  注文確定
+                </Button>
+              </div>
             </div>
           </div>
         ) : (

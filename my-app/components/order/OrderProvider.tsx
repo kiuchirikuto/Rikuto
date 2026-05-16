@@ -17,7 +17,7 @@ type Order = {
 type OrderContextType = {
   cart: CartItem[]
   orders: Order[]
-  addToCart: (item: MenuItem) => void
+  addToCart: (item: MenuItem) => { success: boolean; message?: string }
   removeFromCart: (index: number) => void
   updateQty: (index: number, qty: number) => void
   placeOrder: () => void
@@ -54,8 +54,12 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
   }, [orders])
 
   function addToCart(item: MenuItem) {
+    if (item.available === false) {
+      return { success: false, message: "申し訳ありません。このメニューは品切れです。" }
+    }
+
     setCart((p) => {
-      const idx = p.findIndex((c) => c.item.title === item.title)
+      const idx = p.findIndex((c) => c.item.id === item.id)
       if (idx > -1) {
         const copy = [...p]
         copy[idx] = { ...copy[idx], qty: copy[idx].qty + 1 }
@@ -63,6 +67,8 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
       }
       return [...p, { item, qty: 1 }]
     })
+
+    return { success: true }
   }
 
   function removeFromCart(index: number) {
