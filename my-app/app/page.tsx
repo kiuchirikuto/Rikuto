@@ -3,8 +3,12 @@ import { OrderProvider } from "@/components/order/OrderProvider";
 import OrderButton from "@/components/order/OrderButton";
 import OrderList from "@/components/order/OrderList";
 import menuCategories from "@/data/menu"
+import getMenuCategoriesFromDB from '@/lib/menu'
 
-export default function Home() {
+export default async function Home() {
+  const dbMenu = await getMenuCategoriesFromDB().catch(() => null)
+  const menu = dbMenu ?? menuCategories
+
   return (
     <OrderProvider>
       <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-50">
@@ -18,7 +22,7 @@ export default function Home() {
         </header>
 
         <main className="space-y-5">
-          {menuCategories.map((category) => (
+          {menu.map((category) => (
             <section
               key={category.key}
               className="rounded-[32px] border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900"
