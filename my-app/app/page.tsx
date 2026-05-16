@@ -1,4 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { OrderProvider } from "@/components/order/OrderProvider";
+import OrderButton from "@/components/order/OrderButton";
+import OrderList from "@/components/order/OrderList";
 
 const menuCategories = [
   {
@@ -8,13 +11,13 @@ const menuCategories = [
         title: "天ぷら定食",
         description: "えび・野菜の天ぷらとご飯セット",
         price: "¥1,200",
-        image: "https://images.unsplash.com/photo-1604898612839-f4bc62148787?auto=format&fit=crop&w=375&q=80",
+        image: "https://nakaya-karasuyama.jp/wp-content/uploads/2021/04/lunch_6.jpg",
       },
       {
         title: "お好み焼き",
         description: "ふわふわキャベツ入りの定番お好み焼き",
         price: "¥980",
-        image: "https://images.unsplash.com/photo-1589308078053-0f950f9d8c27?auto=format&fit=crop&w=375&q=80",
+        image: "https://nakaya-karasuyama.jp/wp-content/uploads/2021/04/lunch_7.jpg",
       },
       {
         title: "刺身盛り合わせ",
@@ -68,8 +71,9 @@ const menuCategories = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-50">
-      <div className="mx-auto flex min-h-screen w-full max-w-[375px] flex-col px-4 py-5">
+    <OrderProvider>
+      <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-50">
+        <div className="mx-auto flex min-h-screen w-full max-w-[375px] flex-col px-4 py-5">
         <header className="mb-5 rounded-[32px] border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
           <p className="text-sm font-semibold text-primary">OSAKI 亭</p>
           <h1 className="mt-2 text-2xl font-bold tracking-tight">本日のおすすめ</h1>
@@ -111,9 +115,7 @@ export default function Home() {
                         </div>
                         <p className="text-sm font-semibold">{item.price}</p>
                       </div>
-                      <Button className="w-full" size="default">
-                        注文リストへ追加
-                      </Button>
+                      <OrderButton item={item} />
                     </div>
                   </div>
                 ))}
@@ -136,6 +138,9 @@ export default function Home() {
           </Button>
         </footer>
       </div>
+      <OrderList />
+    </div>
+  </OrderProvider>
     </div>
   );
 }
