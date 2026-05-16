@@ -42,7 +42,7 @@ export const menuCategories: MenuCategory[] = [
         description: "ふわふわキャベツ入りの定番お好み焼き",
         price: 980,
         priceText: "¥980",
-        image: "https://images.unsplash.com/photo-1605475124555-1f2b9b6c5d3b?auto=format&fit=crop&w=1200&q=90",
+        image: "/menus/okonomiyaki.jpg",
         tags: ["grill"],
         available: true,
         calories: 650,
