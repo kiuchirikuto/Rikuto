@@ -141,6 +141,5 @@ export default function Home() {
       <OrderList />
     </div>
   </OrderProvider>
-    </div>
   );
 }
