@@ -17,10 +17,10 @@ type Order = {
 type OrderContextType = {
   cart: CartItem[]
   orders: Order[]
-  addToCart: (item: MenuItem) => { success: boolean; message?: string }
+    addToCart: (item: MenuItem) => { success: boolean; message?: string }
   removeFromCart: (index: number) => void
   updateQty: (index: number, qty: number) => void
-  placeOrder: () => void
+    placeOrder: () => Promise<{ success: boolean; message?: string }>
   clearCart: () => void
 }
 
@@ -88,15 +88,34 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
     setCart([])
   }
 
-  function placeOrder() {
-    if (cart.length === 0) return
-    const order: Order = {
-      id: Date.now(),
-      items: cart.map((c) => ({ ...c.item, qty: c.qty })),
-      date: new Date().toISOString(),
+  async function placeOrder() {
+    if (cart.length === 0) return { success: false, message: 'カートが空です' }
+
+    const payload = {
+      items: cart.map((c) => ({ id: c.item.id, title: c.item.title, qty: c.qty, price: c.item.price })),
+      total: cart.reduce((s, c) => s + (c.item.price || 0) * c.qty, 0),
     }
-    setOrders((p) => [order, ...p])
-    setCart([])
+
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json()
+      if (!res.ok) return { success: false, message: data?.error || '注文送信に失敗しました' }
+
+      const order: Order = {
+        id: data.orderId || Date.now(),
+        items: cart.map((c) => ({ ...c.item, qty: c.qty })),
+        date: new Date().toISOString(),
+      }
+      setOrders((p) => [order, ...p])
+      setCart([])
+      return { success: true }
+    } catch (e: any) {
+      return { success: false, message: e?.message || String(e) }
+    }
   }
 
   return (

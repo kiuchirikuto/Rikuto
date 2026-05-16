@@ -8,6 +8,8 @@ export default function OrderList() {
   const { cart, orders, removeFromCart, updateQty, placeOrder, clearCart } = useOrder()
   const [showHistory, setShowHistory] = useState(false)
   const [people, setPeople] = useState<number>(1)
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState<string | null>(null)
 
   const total = cart.reduce((s, c) => s + (c.item.price || 0) * c.qty, 0)
   const totalText = total.toLocaleString()
@@ -68,8 +70,22 @@ export default function OrderList() {
                 <div className="text-xs">一人あたり: <span className="font-semibold">¥{perPerson.toLocaleString()}</span></div>
               </div>
               <div className="flex gap-2">
-                <Button className="flex-1" onClick={() => placeOrder()}>
-                  注文確定
+                <Button
+                  className="flex-1"
+                  onClick={async () => {
+                    setLoading(true)
+                    setMessage(null)
+                    const res = await placeOrder()
+                    setLoading(false)
+                    if (res?.success) {
+                      setMessage('注文が送信されました')
+                    } else {
+                      setMessage(res?.message || '送信に失敗しました')
+                    }
+                    setTimeout(() => setMessage(null), 4000)
+                  }}
+                >
+                  {loading ? '送信中…' : '注文確定'}
                 </Button>
               </div>
             </div>

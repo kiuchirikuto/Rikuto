@@ -21,3 +21,20 @@ INSERT INTO menu_items (id, title, description, price, image, category) VALUES
 ('ds1', '抹茶アイス', '濃厚な抹茶の和風アイスクリーム', 380, 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=90', 'デザート');
 
 -- After running this, set DATABASE_URL in your environment to the Neon connection string.
+
+-- Orders tables
+CREATE TABLE IF NOT EXISTS orders (
+  id BIGSERIAL PRIMARY KEY,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  total INTEGER,
+  metadata JSONB
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  id BIGSERIAL PRIMARY KEY,
+  order_id BIGINT REFERENCES orders(id) ON DELETE CASCADE,
+  menu_item_id TEXT,
+  title TEXT,
+  qty INTEGER,
+  price INTEGER
+);
