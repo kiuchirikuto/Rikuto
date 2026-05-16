@@ -1,13 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from "react"
-
-export type MenuItem = {
-  title: string
-  description?: string
-  price: string
-  image?: string
-}
+import type { MenuItem } from "@/data/menu"
 
 export type CartItem = {
   item: MenuItem

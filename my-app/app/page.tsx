@@ -2,72 +2,7 @@ import { Button } from "@/components/ui/button";
 import { OrderProvider } from "@/components/order/OrderProvider";
 import OrderButton from "@/components/order/OrderButton";
 import OrderList from "@/components/order/OrderList";
-
-const menuCategories = [
-  {
-    genre: "主菜",
-    items: [
-      {
-        title: "天ぷら定食",
-        description: "えび・野菜の天ぷらとご飯セット",
-        price: "¥1,200",
-        image: "https://nakaya-karasuyama.jp/wp-content/uploads/2021/04/lunch_6.jpg",
-      },
-      {
-        title: "お好み焼き",
-        description: "ふわふわキャベツ入りの定番お好み焼き",
-        price: "¥980",
-        image: "https://nakaya-karasuyama.jp/wp-content/uploads/2021/04/lunch_7.jpg",
-      },
-      {
-        title: "刺身盛り合わせ",
-        description: "新鮮な魚介をたっぷりどうぞ",
-        price: "¥1,580",
-        image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=375&q=80",
-      },
-    ],
-  },
-  {
-    genre: "飲み物",
-    items: [
-      {
-        title: "緑茶",
-        description: "温かい日本茶でほっと一息",
-        price: "¥220",
-        image: "https://images.unsplash.com/photo-1510626176961-4b37a1b5d8c5?auto=format&fit=crop&w=375&q=80",
-      },
-      {
-        title: "生ビール",
-        description: "キンキンに冷えた1杯",
-        price: "¥550",
-        image: "https://images.unsplash.com/photo-1542444459-db88e6c8f2f2?auto=format&fit=crop&w=375&q=80",
-      },
-      {
-        title: "ほうじ茶ラテ",
-        description: "香ばしいほうじ茶のミルクラテ",
-        price: "¥420",
-        image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=375&q=80",
-      },
-    ],
-  },
-  {
-    genre: "デザート",
-    items: [
-      {
-        title: "抹茶アイス",
-        description: "濃厚な抹茶の和風アイスクリーム",
-        price: "¥380",
-        image: "https://images.unsplash.com/photo-1599785209707-7d64d4668f1c?auto=format&fit=crop&w=375&q=80",
-      },
-      {
-        title: "みたらし団子",
-        description: "甘辛いタレが香ばしい",
-        price: "¥360",
-        image: "https://images.unsplash.com/photo-1495195134817-aeb325a55b65?auto=format&fit=crop&w=375&q=80",
-      },
-    ],
-  },
-];
+import menuCategories from "@/data/menu"
 
 export default function Home() {
   return (
