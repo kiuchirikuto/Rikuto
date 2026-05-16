@@ -20,11 +20,11 @@ export default function Home() {
         <main className="space-y-5">
           {menuCategories.map((category) => (
             <section
-              key={category.genre}
+              key={category.key}
               className="rounded-[32px] border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900"
             >
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-base font-semibold">{category.genre}</h2>
+                <h2 className="text-base font-semibold">{category.name}</h2>
                 <span className="rounded-full bg-zinc-100 px-3 py-1 text-[11px] font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
                   {category.items.length} 品
                 </span>
@@ -32,15 +32,15 @@ export default function Home() {
               <div className="space-y-4">
                 {category.items.map((item) => (
                   <div
-                    key={item.title}
+                    key={item.id}
                     className="overflow-hidden rounded-[32px] border border-zinc-200 bg-zinc-50 shadow-sm dark:border-zinc-700 dark:bg-zinc-800"
                   >
                     <div className="h-40 overflow-hidden bg-zinc-200 dark:bg-zinc-900">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="h-full w-full object-cover"
-                      />
+                        <div>
+                          <p className="font-semibold">{item.title}</p>
+                          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{item.description}</p>
+                        </div>
+                        <p className="text-sm font-semibold">{item.priceText ?? `¥${item.price}`}</p>
                     </div>
                     <div className="p-4">
                       <div className="mb-2 flex items-start justify-between gap-3">
