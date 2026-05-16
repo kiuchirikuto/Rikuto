@@ -5,14 +5,14 @@ import { useOrder } from "@/components/order/OrderProvider"
 import { Button } from "@/components/ui/button"
 
 export default function OrderList() {
-  const { cart, orders, removeFromCart, placeOrder, clearCart } = useOrder()
+  const { cart, orders, removeFromCart, updateQty, placeOrder, clearCart } = useOrder()
   const [showHistory, setShowHistory] = useState(false)
 
   return (
     <div className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-32px)] max-w-[375px] -translate-x-1/2">
       <div className="rounded-xl bg-white p-3 shadow-lg dark:bg-zinc-900">
         <div className="mb-2 flex items-center justify-between">
-          <h3 className="text-sm font-semibold">カート ({cart.length})</h3>
+          <h3 className="text-sm font-semibold">カート ({cart.reduce((s, c) => s + c.qty, 0)})</h3>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={() => setShowHistory((s) => !s)}>
               {showHistory ? "カート表示" : "注文履歴"}
@@ -31,12 +31,17 @@ export default function OrderList() {
               cart.map((it, idx) => (
                 <div key={idx} className="flex items-center justify-between rounded-md border p-2">
                   <div>
-                    <p className="text-sm">{it.title}</p>
-                    <p className="text-xs text-zinc-500">{it.price}</p>
+                    <p className="text-sm">{it.item.title}</p>
+                    <p className="text-xs text-zinc-500">{it.item.price}</p>
                   </div>
-                  <Button variant="outline" size="sm" onClick={() => removeFromCart(idx)}>
-                    削除
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" onClick={() => updateQty(idx, it.qty - 1)}>-</Button>
+                    <div className="text-sm">{it.qty}</div>
+                    <Button variant="outline" size="sm" onClick={() => updateQty(idx, it.qty + 1)}>+</Button>
+                    <Button variant="outline" size="sm" onClick={() => removeFromCart(idx)}>
+                      削除
+                    </Button>
+                  </div>
                 </div>
               ))
             )}
